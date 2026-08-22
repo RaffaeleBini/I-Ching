@@ -5,7 +5,6 @@ export const it: Dictionary = {
     title: "I Ching",
   },
   nav: {
-    home: "Home",
     diario: "Diario",
   },
   home: {

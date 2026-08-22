@@ -5,7 +5,6 @@ export const gl: Dictionary = {
     title: "I Ching",
   },
   nav: {
-    home: "Inicio",
     diario: "Diario",
   },
   home: {

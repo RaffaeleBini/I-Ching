@@ -49,14 +49,25 @@ describe("getResultingLines", () => {
     expect(getResultingLines(lines)).toBeNull();
   });
 
-  it("invierte solo las líneas mutantes (6→8, 9→7) y deja el resto igual", () => {
+  it("invierte la polaridad de las líneas mutantes (6→7, 9→8) y deja el resto igual", () => {
     const lines: LineValue[] = [6, 7, 8, 9, 7, 8];
-    expect(getResultingLines(lines)).toEqual([8, 7, 8, 7, 7, 8]);
+    expect(getResultingLines(lines)).toEqual([7, 7, 8, 8, 7, 8]);
   });
 
   it("invierte todas las líneas si todas son mutantes", () => {
     const lines: LineValue[] = [9, 9, 9, 9, 9, 9];
-    expect(getResultingLines(lines)).toEqual([7, 7, 7, 7, 7, 7]);
+    expect(getResultingLines(lines)).toEqual([8, 8, 8, 8, 8, 8]);
+  });
+
+  it("el hexagrama resultante es distinto del principal cuando hay líneas mutantes", () => {
+    // Antes de la corrección, invertir solo la estabilidad (6→8, 9→7) dejaba
+    // el patrón yin/yang intacto y el hexagrama resultante salía idéntico al
+    // principal. La polaridad debe invertirse de verdad.
+    const lines: LineValue[] = [7, 7, 9, 8, 7, 6];
+    const principal = getHexagramNumberFromLines(lines);
+    const resultantes = getResultingLines(lines)!;
+    const resultante = getHexagramNumberFromLines(resultantes);
+    expect(resultante).not.toBe(principal);
   });
 });
 

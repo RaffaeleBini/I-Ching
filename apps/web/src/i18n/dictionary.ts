@@ -9,7 +9,6 @@ export interface Dictionary {
     title: string;
   };
   nav: {
-    home: string;
     diario: string;
   };
   home: {

@@ -12,8 +12,11 @@ export function isChangingLine(line: LineValue): boolean {
 
 /**
  * Si el hexagrama tiene líneas mutantes, calcula el hexagrama resultante
- * invirtiendo solo esas líneas (6 → 8, 9 → 7); las líneas estables no cambian.
- * Devuelve `null` si no hay ninguna línea mutante.
+ * invirtiendo su polaridad (6 = yin mutante → 7 = yang estable; 9 = yang
+ * mutante → 8 = yin estable); las líneas estables no cambian. Es la
+ * inversión de polaridad, no solo de estabilidad, lo que hace que el
+ * hexagrama resultante sea (normalmente) distinto del principal — ver spec
+ * §3.1. Devuelve `null` si no hay ninguna línea mutante.
  */
 export function getResultingLines(lines: LineValue[]): LineValue[] | null {
   if (!lines.some(isChangingLine)) {
@@ -21,8 +24,8 @@ export function getResultingLines(lines: LineValue[]): LineValue[] | null {
   }
 
   return lines.map((line): LineValue => {
-    if (line === 6) return 8;
-    if (line === 9) return 7;
+    if (line === 6) return 7;
+    if (line === 9) return 8;
     return line;
   });
 }
