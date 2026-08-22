@@ -1,0 +1,16 @@
+node_modules/
+dist/
+build/
+coverage/
+.DS_Store
+*.log
+.env
+.env.local
+.vite/
+.turbo/
+
+# Material de referencia con copyright (Wilhelm/Baynes) — no debe publicarse en el repo
+/*.pdf
+
+# Metadatos de la sesión de Claude Code (no forma parte del proyecto)
+/.claude/

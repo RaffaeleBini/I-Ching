@@ -1,0 +1,58 @@
+/**
+ * Forma de un diccionario de strings de la interfaz. Se define como una
+ * interfaz TS (no claves string sueltas) para que el compilador señale de
+ * inmediato si a un diccionario le falta una clave o si un componente usa
+ * una clave inexistente — sin necesidad de un motor i18n externo.
+ */
+export interface Dictionary {
+  app: {
+    title: string;
+  };
+  nav: {
+    home: string;
+    diario: string;
+  };
+  home: {
+    tagline: string;
+    newConsultation: string;
+    viewDiario: string;
+  };
+  nuevaConsulta: {
+    title: string;
+    questionLabel: string;
+    questionPlaceholder: string;
+    skipAnimation: string;
+    startButton: string;
+    tossingLine: (linea: number) => string;
+    revealing: string;
+  };
+  resultado: {
+    principalTitle: string;
+    resultanteTitle: string;
+    juicioLabel: string;
+    imagenLabel: string;
+    lineasMutantesLabel: string;
+    notaLabel: string;
+    notaPlaceholder: string;
+    notaSaved: string;
+    withoutQuestion: string;
+    backToDiario: string;
+    notFound: string;
+  };
+  diario: {
+    title: string;
+    empty: string;
+    searchPlaceholder: string;
+    filterByHexagramLabel: string;
+    filterAll: string;
+    consultOn: (fecha: string) => string;
+  };
+  settings: {
+    languageLabel: string;
+    themeLight: string;
+    themeDark: string;
+  };
+  common: {
+    loading: string;
+  };
+}
