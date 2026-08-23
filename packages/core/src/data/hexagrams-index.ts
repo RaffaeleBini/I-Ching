@@ -131,3 +131,25 @@ export function getTrigramsForHexagramNumber(numero: number): HexagramTrigrams {
   }
   throw new Error(`Número de hexagrama fuera de rango: ${numero}`);
 }
+
+/**
+ * Las 6 líneas "de referencia" (todas estables: 7 = yang, 8 = yin) de un
+ * hexagrama, de la línea 1 (abajo) a la línea 6 (arriba). Útil para dibujar
+ * el diagrama de un hexagrama fuera del contexto de una consulta concreta
+ * (por ejemplo, en la pantalla de Referencia), donde no existe el concepto
+ * de línea mutante.
+ */
+export function getStableLinesForHexagramNumber(numero: number): LineValue[] {
+  const { inferior, superior } = getTrigramsForHexagramNumber(numero);
+  const toLine = (bit: 0 | 1): LineValue => (bit === 1 ? 7 : 8);
+  const inferiorPattern = TRIGRAM_PATTERN[inferior];
+  const superiorPattern = TRIGRAM_PATTERN[superior];
+  return [
+    toLine(inferiorPattern[0]),
+    toLine(inferiorPattern[1]),
+    toLine(inferiorPattern[2]),
+    toLine(superiorPattern[0]),
+    toLine(superiorPattern[1]),
+    toLine(superiorPattern[2]),
+  ];
+}

@@ -10,11 +10,13 @@ export interface Dictionary {
   };
   nav: {
     diario: string;
+    referencia: string;
   };
   home: {
     tagline: string;
     newConsultation: string;
     viewDiario: string;
+    viewReferencia: string;
   };
   nuevaConsulta: {
     title: string;
@@ -45,6 +47,14 @@ export interface Dictionary {
     filterByHexagramLabel: string;
     filterAll: string;
     consultOn: (fecha: string) => string;
+  };
+  referencia: {
+    title: string;
+    searchPlaceholder: string;
+    lineasLabel: string;
+    trigramaSuperiorLabel: string;
+    trigramaInferiorLabel: string;
+    backToReferencia: string;
   };
   settings: {
     languageLabel: string;

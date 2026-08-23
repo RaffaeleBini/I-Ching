@@ -50,6 +50,12 @@ export function AppHeader() {
 
         <nav className="flex items-center gap-1">
           <Link
+            to="/referencia"
+            className="rounded-full px-3 py-1.5 text-sm text-ink-muted transition-colors hover:bg-surface-raised hover:text-ink"
+          >
+            {t.nav.referencia}
+          </Link>
+          <Link
             to="/diario"
             className="rounded-full px-3 py-1.5 text-sm text-ink-muted transition-colors hover:bg-surface-raised hover:text-ink"
           >

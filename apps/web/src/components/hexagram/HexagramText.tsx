@@ -5,11 +5,13 @@ import { useSettingsStore } from "../../store/settingsStore";
 interface HexagramTextProps {
   hexagram: HexagramData;
   title: string;
-  /** Si se pasan, solo se muestran los textos de las líneas mutantes (6 o 9). */
+  /** Si se pasan, solo se muestran los textos de las líneas mutantes (6 o 9). Ignorado si `showAllLines` es true. */
   lines?: LineValue[];
+  /** Muestra las 6 líneas siempre (uso en Referencia, donde no hay una consulta con líneas mutantes). */
+  showAllLines?: boolean;
 }
 
-export function HexagramText({ hexagram, title, lines }: HexagramTextProps) {
+export function HexagramText({ hexagram, title, lines, showAllLines = false }: HexagramTextProps) {
   const t = useDictionary();
   const locale = useSettingsStore((state) => state.locale);
   const contenido = hexagram.contenido[locale];
@@ -19,6 +21,14 @@ export function HexagramText({ hexagram, title, lines }: HexagramTextProps) {
     if (value === 6 || value === 9) acc.push(index + 1);
     return acc;
   }, []);
+
+  const lineasAMostrar = showAllLines
+    ? contenido.lineas
+    : contenido.lineas.filter((linea) => changingLineNumbers.includes(linea.numero));
+  const mostrarSeccionLineas = showAllLines || lineasAMostrar.length > 0;
+  const lineasSectionTitle = showAllLines
+    ? t.referencia.lineasLabel
+    : t.resultado.lineasMutantesLabel;
 
   return (
     <div>
@@ -49,20 +59,27 @@ export function HexagramText({ hexagram, title, lines }: HexagramTextProps) {
           <p className="mt-1 leading-relaxed text-ink">{contenido.imagen}</p>
         </section>
 
-        {changingLineNumbers.length > 0 && (
+        {mostrarSeccionLineas && (
           <section>
             <h3 className="text-xs font-medium uppercase tracking-wide text-ink-muted">
-              {t.resultado.lineasMutantesLabel}
+              {lineasSectionTitle}
             </h3>
             <ul className="mt-1 space-y-2">
-              {contenido.lineas
-                .filter((linea) => changingLineNumbers.includes(linea.numero))
-                .map((linea) => (
-                  <li key={linea.numero} className="leading-relaxed text-ink">
-                    <span className="font-medium text-accent">{linea.numero}.</span>{" "}
-                    {linea.texto}
-                  </li>
-                ))}
+              {lineasAMostrar.map((linea) => (
+                <li key={linea.numero} className="leading-relaxed text-ink">
+                  <span
+                    className={[
+                      "font-medium",
+                      !showAllLines || changingLineNumbers.includes(linea.numero)
+                        ? "text-accent"
+                        : "text-ink-muted",
+                    ].join(" ")}
+                  >
+                    {linea.numero}.
+                  </span>{" "}
+                  {linea.texto}
+                </li>
+              ))}
             </ul>
           </section>
         )}

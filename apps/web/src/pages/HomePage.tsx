@@ -21,6 +21,9 @@ export function HomePage() {
         <Link to="/diario">
           <Button variant="secondary">{t.home.viewDiario}</Button>
         </Link>
+        <Link to="/referencia" className="text-sm text-ink-muted underline hover:text-ink">
+          {t.home.viewReferencia}
+        </Link>
       </div>
     </div>
   );

@@ -22,6 +22,7 @@ export {
   getHexagramNumberFromTrigrams,
   getTrigramsFromLines,
   getTrigramsForHexagramNumber,
+  getStableLinesForHexagramNumber,
 } from "./data/hexagrams-index";
 export type { HexagramTrigrams } from "./data/hexagrams-index";
 

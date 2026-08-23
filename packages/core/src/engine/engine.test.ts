@@ -3,6 +3,7 @@ import type { LineValue } from "../types/hexagram";
 import {
   getHexagramNumberFromLines,
   getHexagramNumberFromTrigrams,
+  getStableLinesForHexagramNumber,
   getTrigramsForHexagramNumber,
   getTrigramsFromLines,
 } from "../data/hexagrams-index";
@@ -128,5 +129,26 @@ describe("getTrigramsForHexagramNumber", () => {
   it("lanza un error para un número fuera de rango", () => {
     expect(() => getTrigramsForHexagramNumber(0)).toThrow();
     expect(() => getTrigramsForHexagramNumber(65)).toThrow();
+  });
+});
+
+describe("getStableLinesForHexagramNumber", () => {
+  it("produce 6 líneas estables (solo 7 u 8) que identifican el mismo hexagrama", () => {
+    for (let numero = 1; numero <= 64; numero += 1) {
+      const lines = getStableLinesForHexagramNumber(numero);
+      expect(lines).toHaveLength(6);
+      for (const line of lines) {
+        expect([7, 8]).toContain(line);
+      }
+      expect(getHexagramNumberFromLines(lines)).toBe(numero);
+    }
+  });
+
+  it("hexagrama 1 (Qián/Qián) es todo yang estable", () => {
+    expect(getStableLinesForHexagramNumber(1)).toEqual([7, 7, 7, 7, 7, 7]);
+  });
+
+  it("hexagrama 2 (Kūn/Kūn) es todo yin estable", () => {
+    expect(getStableLinesForHexagramNumber(2)).toEqual([8, 8, 8, 8, 8, 8]);
   });
 });

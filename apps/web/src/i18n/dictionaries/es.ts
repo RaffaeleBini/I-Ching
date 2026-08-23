@@ -6,11 +6,13 @@ export const es: Dictionary = {
   },
   nav: {
     diario: "Diario",
+    referencia: "Referencia",
   },
   home: {
     tagline: "Un espacio de calma para tus consultas al I Ching.",
     newConsultation: "Nueva consulta",
     viewDiario: "Ver diario",
+    viewReferencia: "Explorar los 64 hexagramas",
   },
   nuevaConsulta: {
     title: "Nueva consulta",
@@ -41,6 +43,14 @@ export const es: Dictionary = {
     filterByHexagramLabel: "Hexagrama",
     filterAll: "Todos",
     consultOn: (fecha) => `Consulta del ${fecha}`,
+  },
+  referencia: {
+    title: "Referencia",
+    searchPlaceholder: "Buscar por número o nombre…",
+    lineasLabel: "Las líneas",
+    trigramaSuperiorLabel: "Trigrama superior",
+    trigramaInferiorLabel: "Trigrama inferior",
+    backToReferencia: "Volver a la referencia",
   },
   settings: {
     languageLabel: "Idioma",
