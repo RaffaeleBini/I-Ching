@@ -1,6 +1,6 @@
-import type { HexagramContent, HexagramData, Locale } from "../types/hexagram";
-import { LOCALES } from "../types/hexagram";
+import type { HexagramData } from "../types/hexagram";
 import { getTrigramsForHexagramNumber } from "./hexagrams-index";
+import { HEXAGRAM_CONTENT } from "./hexagrams-content";
 
 /**
  * Base de datos de los 64 hexagramas.
@@ -8,72 +8,19 @@ import { getTrigramsForHexagramNumber } from "./hexagrams-index";
  * Decisión de contenido (ver plan de proyecto): ninguno de los dos PDF de
  * referencia disponibles puede usarse como fuente de los textos
  * interpretativos (ambos son material protegido por copyright, derivado de
- * Richard Wilhelm). El contenido definitivo se redactará a partir de la
- * traducción de James Legge (1899, dominio público), reescrita en tono
- * propio — tarea de contenido independiente de esta iteración de ingeniería.
+ * Richard Wilhelm). El contenido definitivo está redactado en tono propio a
+ * partir del sentido tradicional de cada hexagrama, siguiendo como
+ * referencia de fondo la traducción de James Legge (1899, dominio público).
  *
- * Por eso, en esta primera iteración:
- * - Los campos estructurales (número, trigramas, símbolo Unicode) están
- *   completos y verificados para los 64 hexagramas: son datos de dominio
- *   público (símbolo Unicode calculado con una fórmula determinista; los
- *   trigramas derivan de la tabla verificada en `hexagrams-index.ts`).
- * - Solo los hexagramas 1 y 2 tienen contenido interpretativo real de
- *   ejemplo (juicio, imagen, líneas), escrito de forma original en las 3
- *   lenguas soportadas, para validar el diseño de la interfaz.
- * - Los hexagramas 3 a 64 usan placeholders explícitos y localizados, tanto
- *   para el nombre chino tradicional (que no se afirma sin verificar) como
- *   para el contenido interpretativo, de forma que rellenar los textos
- *   definitivos más adelante sea un simple reemplazo de datos, sin tocar
- *   código. `hexagrams.test.ts` valida que la estructura no se rompa.
+ * Los campos estructurales (número, trigramas, símbolo Unicode) son datos de
+ * dominio público: el símbolo Unicode se calcula con una fórmula
+ * determinista y los trigramas derivan de la tabla verificada en
+ * `hexagrams-index.ts`. Los hexagramas 1 y 2 tienen su contenido
+ * interpretativo definido directamente aquí, por ser los primeros escritos
+ * (para validar el diseño de la interfaz); los hexagramas 3 a 64 toman su
+ * contenido de `hexagrams-content.ts`. `hexagrams.test.ts` valida que la
+ * estructura se mantenga correcta para los 64.
  */
-
-const PLACEHOLDER_NAME: Record<Locale, (numero: number) => string> = {
-  es: (numero) => `Hexagrama ${numero}`,
-  gl: (numero) => `Hexagrama ${numero}`,
-  it: (numero) => `Esagramma ${numero}`,
-};
-
-const PLACEHOLDER_JUICIO: Record<Locale, (numero: number) => string> = {
-  es: (numero) =>
-    `[PENDIENTE es: juicio del hexagrama ${numero} — por redactar a partir de Legge]`,
-  gl: (numero) =>
-    `[PENDENTE gl: xuízo do hexagrama ${numero} — por redactar a partir de Legge]`,
-  it: (numero) =>
-    `[IN SOSPESO it: giudizio dell'esagramma ${numero} — da scrivere sulla base di Legge]`,
-};
-
-const PLACEHOLDER_IMAGEN: Record<Locale, (numero: number) => string> = {
-  es: (numero) =>
-    `[PENDIENTE es: imagen del hexagrama ${numero} — por redactar a partir de Legge]`,
-  gl: (numero) =>
-    `[PENDENTE gl: imaxe do hexagrama ${numero} — por redactar a partir de Legge]`,
-  it: (numero) =>
-    `[IN SOSPESO it: immagine dell'esagramma ${numero} — da scrivere sulla base di Legge]`,
-};
-
-const PLACEHOLDER_LINEA: Record<Locale, (numero: number, linea: number) => string> = {
-  es: (numero, linea) =>
-    `[PENDIENTE es: texto de la línea ${linea} del hexagrama ${numero}]`,
-  gl: (numero, linea) =>
-    `[PENDENTE gl: texto da liña ${linea} do hexagrama ${numero}]`,
-  it: (numero, linea) =>
-    `[IN SOSPESO it: testo della linea ${linea} dell'esagramma ${numero}]`,
-};
-
-function buildPlaceholderContent(numero: number): Record<Locale, HexagramContent> {
-  const contenido = {} as Record<Locale, HexagramContent>;
-  for (const locale of LOCALES) {
-    contenido[locale] = {
-      juicio: PLACEHOLDER_JUICIO[locale](numero),
-      imagen: PLACEHOLDER_IMAGEN[locale](numero),
-      lineas: [1, 2, 3, 4, 5, 6].map((linea) => ({
-        numero: linea as 1 | 2 | 3 | 4 | 5 | 6,
-        texto: PLACEHOLDER_LINEA[locale](numero, linea),
-      })),
-    };
-  }
-  return contenido;
-}
 
 function unicodeSymbolFor(numero: number): string {
   // Bloque Unicode "Yijing Hexagram Symbols" (U+4DC0–U+4DFF), ordenado según
@@ -81,21 +28,34 @@ function unicodeSymbolFor(numero: number): string {
   return String.fromCodePoint(0x4dc0 + (numero - 1));
 }
 
-function buildPlaceholderHexagram(numero: number): HexagramData {
+function buildHexagram(numero: number): HexagramData {
   const { inferior, superior } = getTrigramsForHexagramNumber(numero);
-  const nombre = {} as Record<Locale, string>;
-  for (const locale of LOCALES) {
-    nombre[locale] = PLACEHOLDER_NAME[locale](numero);
+  const content = HEXAGRAM_CONTENT[numero];
+  if (!content) {
+    throw new Error(`No hay contenido definido para el hexagrama ${numero}`);
   }
   return {
     numero,
-    nombre_chino: "[PENDIENTE: nombre chino tradicional por verificar]",
-    nombre,
+    nombre_chino: content.nombreChino,
+    nombre: content.nombre,
     trigrama_superior: superior,
     trigrama_inferior: inferior,
     simbolo_unicode: unicodeSymbolFor(numero),
-    contenido: buildPlaceholderContent(numero),
+    contenido: {
+      es: { juicio: content.juicio.es, imagen: content.imagen.es, lineas: buildLineas(content.lineas.es) },
+      gl: { juicio: content.juicio.gl, imagen: content.imagen.gl, lineas: buildLineas(content.lineas.gl) },
+      it: { juicio: content.juicio.it, imagen: content.imagen.it, lineas: buildLineas(content.lineas.it) },
+    },
   };
+}
+
+function buildLineas(
+  textos: readonly [string, string, string, string, string, string],
+): { numero: 1 | 2 | 3 | 4 | 5 | 6; texto: string }[] {
+  return textos.map((texto, index) => ({
+    numero: (index + 1) as 1 | 2 | 3 | 4 | 5 | 6,
+    texto,
+  }));
 }
 
 const HEXAGRAM_1: HexagramData = {
@@ -353,15 +313,15 @@ const HEXAGRAM_2: HexagramData = {
   },
 };
 
-const PLACEHOLDER_HEXAGRAMS: HexagramData[] = Array.from(
+const REMAINING_HEXAGRAMS: HexagramData[] = Array.from(
   { length: 62 },
-  (_, index) => buildPlaceholderHexagram(index + 3),
+  (_, index) => buildHexagram(index + 3),
 );
 
 export const HEXAGRAMS: readonly HexagramData[] = [
   HEXAGRAM_1,
   HEXAGRAM_2,
-  ...PLACEHOLDER_HEXAGRAMS,
+  ...REMAINING_HEXAGRAMS,
 ].sort((a, b) => a.numero - b.numero);
 
 export function getHexagramData(numero: number): HexagramData {
