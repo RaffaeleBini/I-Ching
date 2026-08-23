@@ -9,6 +9,42 @@ consulta, Resultado, Diario, Referencia de los 64 hexagramas), Ajustes (exportar
 diario) y soporte PWA (instalable, funciona sin conexión). La app móvil (React Native, reutilizando
 `@iching/core`) queda para una iteración futura.
 
+## Probar la app en local
+
+![Pantalla de Resultado de una consulta](./docs/screenshot-resultado.png)
+
+Requiere [Node.js](https://nodejs.org) ≥20. Desde la raíz del repositorio:
+
+```bash
+# 1. Instalar dependencias (todo el monorepo)
+corepack pnpm install
+
+# 2. Levantar el servidor de desarrollo de la app web
+corepack pnpm --filter @iching/web dev
+```
+
+Abre en el navegador la URL que imprime el comando (normalmente `http://localhost:5173/`). Ya
+puedes usar el flujo completo: Nueva consulta → Resultado → Diario → Referencia → Ajustes, y
+cambiar idioma (ES/GL/IT) y tema (claro/oscuro) desde la cabecera.
+
+> `corepack pnpm` garantiza tener pnpm disponible sin instalarlo aparte; si ya tienes `pnpm` en el
+> PATH, puedes usarlo directamente en lugar de `corepack pnpm`.
+
+Para detener el servidor: `Ctrl+C` en la terminal.
+
+### Probar la instalación como PWA y el modo sin conexión
+
+El service worker solo se activa en la build de producción, no en el servidor de desarrollo:
+
+```bash
+corepack pnpm --filter @iching/web build
+corepack pnpm --filter @iching/web preview
+```
+
+Abre la URL que imprime (normalmente `http://localhost:4173/`). Ahí el navegador ofrece instalar
+la app (icono en la barra de direcciones o "Instalar app…" en el menú), y en DevTools → pestaña
+Network → "Offline" puedes comprobar que sigue funcionando sin conexión.
+
 ## Estructura del monorepo
 
 ```
