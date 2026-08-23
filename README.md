@@ -4,9 +4,10 @@ Aplicación minimalista y contemplativa para consultas al I Ching mediante el m�
 de las 3 monedas, con diario personal. 100% local, sin cuentas ni backend. Ver
 [`spec-iching-app.md`](./spec-iching-app.md) para la especificación completa del proyecto.
 
-Estado actual: **primera iteración — nucleo funcional mínimo** (motor de consulta + 3 pantallas
-esenciales: Nueva consulta, Resultado, Diario). Referencia de los 64 hexagramas, Ajustes
-(exportar/importar), PWA y la app móvil quedan para iteraciones siguientes.
+Estado actual: núcleo funcional completo — motor de consulta, las 4 pantallas principales (Nueva
+consulta, Resultado, Diario, Referencia de los 64 hexagramas), Ajustes (exportar/importar el
+diario) y soporte PWA (instalable, funciona sin conexión). La app móvil (React Native, reutilizando
+`@iching/core`) queda para una iteración futura.
 
 ## Estructura del monorepo
 
@@ -23,16 +24,12 @@ apps/
 Ninguno de los dos PDF de referencia usados durante la planificación puede emplearse como fuente
 de los textos interpretativos: ambos son material derivado de la traducción de Richard Wilhelm,
 protegida por copyright (por eso no se versionan en este repo — ver `.gitignore`). El contenido
-definitivo se redactará a partir de la traducción de **James Legge (1899, dominio público)**,
-reescrita en tono propio. Por ahora:
-
-- Los 64 hexagramas tienen sus **datos estructurales completos y verificados** (número,
-  trigramas, símbolo Unicode).
-- Solo los hexagramas **1 (Qián) y 2 (Kūn)** tienen contenido interpretativo real de ejemplo, en
-  español, gallego e italiano.
-- Los hexagramas 3-64 usan **placeholders explícitos** (`[PENDIENTE ...]`) para el nombre chino
-  tradicional y el contenido interpretativo — rellenarlos es una tarea de contenido, no de
-  ingeniería (ver `packages/core/src/data/hexagrams.ts`).
+definitivo (juicio, imagen y las 6 líneas de cada hexagrama, en español, gallego e italiano) está
+redactado en tono propio, a partir del sentido tradicional de cada hexagrama y usando como
+referencia de fondo la traducción de **James Legge (1899, dominio público)**. Los 64 hexagramas
+tienen tanto sus datos estructurales (número, trigramas, símbolo Unicode) como su contenido
+interpretativo completos — ver `packages/core/src/data/hexagrams.ts` y
+`packages/core/src/data/hexagrams-content.ts`.
 
 ## Desarrollo
 
@@ -60,5 +57,13 @@ pnpm -r build
 
 La interfaz está disponible en español, gallego e italiano (selector en la cabecera), y admite
 modo claro/oscuro (también en la cabecera, respeta `prefers-color-scheme` en el primer uso). El
-contenido interpretativo de los hexagramas sigue el mismo idioma seleccionado; por ahora solo los
-hexagramas 1 y 2 tienen texto real en las 3 lenguas.
+contenido interpretativo de los 64 hexagramas sigue el mismo idioma seleccionado.
+
+## PWA (instalable, sin conexión)
+
+La app web es una Progressive Web App: incluye manifest e icono propio (instalable desde el
+navegador, tanto en escritorio como en móvil) y un service worker que precachea el bundle
+completo, así que funciona sin conexión tras la primera visita. No hay llamadas de red en ningún
+punto de la app (todo el diario vive en IndexedDB local), por lo que no hace falta ninguna
+estrategia de caché en tiempo de ejecución más allá de ese precache — ver `apps/web/vite.config.ts`
+(`vite-plugin-pwa`).
