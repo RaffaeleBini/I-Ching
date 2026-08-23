@@ -6,6 +6,7 @@ import { ResultadoPage } from "./pages/ResultadoPage";
 import { DiarioPage } from "./pages/DiarioPage";
 import { ReferenciaPage } from "./pages/ReferenciaPage";
 import { ReferenciaDetailPage } from "./pages/ReferenciaDetailPage";
+import { AjustesPage } from "./pages/AjustesPage";
 
 export const router: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ export const router: ReturnType<typeof createBrowserRouter> = createBrowserRoute
       { path: "/diario", element: <DiarioPage /> },
       { path: "/referencia", element: <ReferenciaPage /> },
       { path: "/referencia/:numero", element: <ReferenciaDetailPage /> },
+      { path: "/ajustes", element: <AjustesPage /> },
     ],
   },
 ]);

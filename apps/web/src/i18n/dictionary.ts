@@ -11,6 +11,7 @@ export interface Dictionary {
   nav: {
     diario: string;
     referencia: string;
+    ajustes: string;
   };
   home: {
     tagline: string;
@@ -60,6 +61,19 @@ export interface Dictionary {
     languageLabel: string;
     themeLight: string;
     themeDark: string;
+  };
+  ajustes: {
+    title: string;
+    description: string;
+    exportTitle: string;
+    exportDescription: string;
+    exportButton: string;
+    exportEmpty: string;
+    importTitle: string;
+    importDescription: string;
+    importButton: string;
+    importSuccess: (importadas: number, omitidas: number) => string;
+    importError: string;
   };
   common: {
     loading: string;

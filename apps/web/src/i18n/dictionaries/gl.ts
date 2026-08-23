@@ -7,6 +7,7 @@ export const gl: Dictionary = {
   nav: {
     diario: "Diario",
     referencia: "Referencia",
+    ajustes: "Axustes",
   },
   home: {
     tagline: "Un espazo de calma para as túas consultas ao I Ching.",
@@ -56,6 +57,24 @@ export const gl: Dictionary = {
     languageLabel: "Idioma",
     themeLight: "Modo claro",
     themeDark: "Modo escuro",
+  },
+  ajustes: {
+    title: "Axustes",
+    description: "Xestiona unha copia de seguridade local do teu diario de consultas.",
+    exportTitle: "Exportar diario",
+    exportDescription:
+      "Descarga todas as túas consultas gardadas nun ficheiro JSON, para conservalas ou levalas a outro dispositivo.",
+    exportButton: "Descargar copia de seguridade",
+    exportEmpty: "Aínda non hai consultas gardadas para exportar.",
+    importTitle: "Importar diario",
+    importDescription:
+      "Selecciona un ficheiro JSON exportado previamente para restaurar ou engadir consultas ao teu diario. As consultas co mesmo identificador actualízanse; o resto engádense.",
+    importButton: "Seleccionar ficheiro…",
+    importSuccess: (importadas, omitidas) =>
+      omitidas > 0
+        ? `Importáronse ${importadas} consulta(s); omitíronse ${omitidas} entrada(s) non válida(s).`
+        : `Importáronse ${importadas} consulta(s).`,
+    importError: "Non se puido ler o ficheiro. Verifica que sexa unha copia de seguridade válida.",
   },
   common: {
     loading: "Cargando…",

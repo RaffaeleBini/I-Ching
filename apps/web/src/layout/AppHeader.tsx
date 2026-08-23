@@ -61,6 +61,12 @@ export function AppHeader() {
           >
             {t.nav.diario}
           </Link>
+          <Link
+            to="/ajustes"
+            className="rounded-full px-3 py-1.5 text-sm text-ink-muted transition-colors hover:bg-surface-raised hover:text-ink"
+          >
+            {t.nav.ajustes}
+          </Link>
 
           <div
             role="group"

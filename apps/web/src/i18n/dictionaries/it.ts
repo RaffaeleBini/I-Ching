@@ -7,6 +7,7 @@ export const it: Dictionary = {
   nav: {
     diario: "Diario",
     referencia: "Riferimento",
+    ajustes: "Impostazioni",
   },
   home: {
     tagline: "Uno spazio di calma per le tue consultazioni dell'I Ching.",
@@ -56,6 +57,24 @@ export const it: Dictionary = {
     languageLabel: "Lingua",
     themeLight: "Modalità chiara",
     themeDark: "Modalità scura",
+  },
+  ajustes: {
+    title: "Impostazioni",
+    description: "Gestisci una copia di backup locale del tuo diario di consultazioni.",
+    exportTitle: "Esporta diario",
+    exportDescription:
+      "Scarica tutte le tue consultazioni salvate in un file JSON, per conservarle o portarle su un altro dispositivo.",
+    exportButton: "Scarica copia di backup",
+    exportEmpty: "Non ci sono ancora consultazioni salvate da esportare.",
+    importTitle: "Importa diario",
+    importDescription:
+      "Seleziona un file JSON esportato in precedenza per ripristinare o aggiungere consultazioni al tuo diario. Le consultazioni con lo stesso identificativo vengono aggiornate; le altre vengono aggiunte.",
+    importButton: "Seleziona file…",
+    importSuccess: (importate, omesse) =>
+      omesse > 0
+        ? `Importate ${importate} consultazione/i; omesse ${omesse} voce/i non valida/e.`
+        : `Importate ${importate} consultazione/i.`,
+    importError: "Impossibile leggere il file. Verifica che sia una copia di backup valida.",
   },
   common: {
     loading: "Caricamento…",
