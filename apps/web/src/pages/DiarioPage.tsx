@@ -12,6 +12,7 @@ export function DiarioPage() {
   const loadAll = useDiarioStore((state) => state.loadAll);
   const setTextFilter = useDiarioStore((state) => state.setTextFilter);
   const setHexagramFilter = useDiarioStore((state) => state.setHexagramFilter);
+  const setFavoritoOnly = useDiarioStore((state) => state.setFavoritoOnly);
 
   useEffect(() => {
     void loadAll();
@@ -21,6 +22,9 @@ export function DiarioPage() {
     const needle = filters.text.trim().toLowerCase();
     return consultas.filter((consulta) => {
       if (filters.hexagrama !== null && consulta.hexagrama_principal !== filters.hexagrama) {
+        return false;
+      }
+      if (filters.favoritoOnly && !consulta.favorito) {
         return false;
       }
       if (needle) {
@@ -41,8 +45,10 @@ export function DiarioPage() {
       <DiarioFilters
         text={filters.text}
         hexagrama={filters.hexagrama}
+        favoritoOnly={filters.favoritoOnly}
         onTextChange={setTextFilter}
         onHexagramChange={setHexagramFilter}
+        onFavoritoOnlyChange={setFavoritoOnly}
       />
 
       {loading ? (

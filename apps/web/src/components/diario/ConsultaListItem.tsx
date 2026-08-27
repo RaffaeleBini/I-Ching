@@ -8,6 +8,17 @@ interface ConsultaListItemProps {
   consulta: Consulta;
 }
 
+function StarIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+      <path
+        d="M12 3.5l2.47 5.51 5.98.59-4.51 4.03 1.32 5.87L12 16.6l-5.26 2.9 1.32-5.87-4.51-4.03 5.98-.59L12 3.5Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
 export function ConsultaListItem({ consulta }: ConsultaListItemProps) {
   const t = useDictionary();
   const locale = useSettingsStore((state) => state.locale);
@@ -27,8 +38,13 @@ export function ConsultaListItem({ consulta }: ConsultaListItemProps) {
         {hexagram.simbolo_unicode}
       </span>
       <div className="min-w-0 flex-1">
-        <p className="truncate text-ink">
-          {consulta.pregunta || t.resultado.withoutQuestion}
+        <p className="flex items-center gap-1.5 truncate text-ink">
+          {consulta.favorito && (
+            <span className="text-accent" aria-label={t.diario.favoriteBadge}>
+              <StarIcon />
+            </span>
+          )}
+          <span className="truncate">{consulta.pregunta || t.resultado.withoutQuestion}</span>
         </p>
         <p className="mt-1 text-xs text-ink-muted">
           {hexagram.nombre[locale]} · {t.diario.consultOn(fecha)}

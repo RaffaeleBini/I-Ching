@@ -40,6 +40,8 @@ export interface Dictionary {
     withoutQuestion: string;
     backToDiario: string;
     notFound: string;
+    favoriteAdd: string;
+    favoriteRemove: string;
   };
   diario: {
     title: string;
@@ -47,6 +49,8 @@ export interface Dictionary {
     searchPlaceholder: string;
     filterByHexagramLabel: string;
     filterAll: string;
+    favoriteOnlyLabel: string;
+    favoriteBadge: string;
     consultOn: (fecha: string) => string;
   };
   referencia: {

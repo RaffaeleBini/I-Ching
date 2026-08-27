@@ -8,9 +8,24 @@ import { HexagramLines } from "../components/hexagram/HexagramLines";
 import { HexagramText } from "../components/hexagram/HexagramText";
 import { Textarea } from "../components/ui/Textarea";
 import { Card } from "../components/ui/Card";
+import { IconButton } from "../components/ui/IconButton";
 
 /** `undefined` = cargando, `null` = no encontrada, objeto = cargada. */
 type LoadState = Consulta | null | undefined;
+
+function StarIcon({ filled }: { filled: boolean }) {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+      <path
+        d="M12 3.5l2.47 5.51 5.98.59-4.51 4.03 1.32 5.87L12 16.6l-5.26 2.9 1.32-5.87-4.51-4.03 5.98-.59L12 3.5Z"
+        fill={filled ? "currentColor" : "none"}
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
 
 export function ResultadoPage() {
   const { id } = useParams<{ id: string }>();
@@ -42,6 +57,13 @@ export function ResultadoPage() {
     });
   }, [id, consulta, nota]);
 
+  const handleToggleFavorito = useCallback(() => {
+    if (!id || !consulta) return;
+    const favorito = !consulta.favorito;
+    setConsulta((prev) => (prev ? { ...prev, favorito } : prev));
+    void consultaRepository.update(id, { favorito });
+  }, [id, consulta]);
+
   if (consulta === undefined) {
     return <p className="text-ink-muted">{t.common.loading}</p>;
   }
@@ -64,6 +86,17 @@ export function ResultadoPage() {
 
   return (
     <div className="flex flex-col gap-8">
+      <div className="flex justify-end">
+        <IconButton
+          label={consulta.favorito ? t.resultado.favoriteRemove : t.resultado.favoriteAdd}
+          onClick={handleToggleFavorito}
+          aria-pressed={consulta.favorito}
+          className={consulta.favorito ? "text-accent" : undefined}
+        >
+          <StarIcon filled={consulta.favorito} />
+        </IconButton>
+      </div>
+
       {consulta.pregunta && (
         <p className="text-center font-serif italic text-ink-muted">
           &ldquo;{consulta.pregunta}&rdquo;

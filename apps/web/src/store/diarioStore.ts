@@ -5,6 +5,7 @@ import { consultaRepository } from "../lib/repository";
 interface DiarioFilters {
   text: string;
   hexagrama: number | null;
+  favoritoOnly: boolean;
 }
 
 interface DiarioState {
@@ -14,13 +15,14 @@ interface DiarioState {
   loadAll: () => Promise<void>;
   setTextFilter: (text: string) => void;
   setHexagramFilter: (hexagrama: number | null) => void;
+  setFavoritoOnly: (favoritoOnly: boolean) => void;
 }
 
 /** Cache reactiva de la lista de consultas persistidas, para el Diario. */
 export const useDiarioStore = create<DiarioState>()((set) => ({
   consultas: [],
   loading: false,
-  filters: { text: "", hexagrama: null },
+  filters: { text: "", hexagrama: null, favoritoOnly: false },
 
   loadAll: async () => {
     set({ loading: true });
@@ -31,4 +33,6 @@ export const useDiarioStore = create<DiarioState>()((set) => ({
   setTextFilter: (text) => set((state) => ({ filters: { ...state.filters, text } })),
   setHexagramFilter: (hexagrama) =>
     set((state) => ({ filters: { ...state.filters, hexagrama } })),
+  setFavoritoOnly: (favoritoOnly) =>
+    set((state) => ({ filters: { ...state.filters, favoritoOnly } })),
 }));

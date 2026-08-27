@@ -36,6 +36,8 @@ export const it: Dictionary = {
     withoutQuestion: "Senza domanda",
     backToDiario: "Torna al diario",
     notFound: "Consultazione non trovata.",
+    favoriteAdd: "Segna come preferita",
+    favoriteRemove: "Rimuovi dai preferiti",
   },
   diario: {
     title: "Diario",
@@ -43,6 +45,8 @@ export const it: Dictionary = {
     searchPlaceholder: "Cerca tra domande e note…",
     filterByHexagramLabel: "Esagramma",
     filterAll: "Tutti",
+    favoriteOnlyLabel: "Solo preferite",
+    favoriteBadge: "Preferita",
     consultOn: (fecha) => `Consultazione del ${fecha}`,
   },
   referencia: {
