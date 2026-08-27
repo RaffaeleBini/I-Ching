@@ -16,6 +16,7 @@ export function ReferenciaDetailPage() {
   if (!esValido) {
     return (
       <div className="flex flex-col items-center gap-4 py-16 text-center">
+        <h1 className="sr-only">{t.referencia.detailHeading}</h1>
         <p className="text-ink-muted">{t.resultado.notFound}</p>
         <Link to="/referencia" className="text-accent underline">
           {t.referencia.backToReferencia}
@@ -29,6 +30,8 @@ export function ReferenciaDetailPage() {
 
   return (
     <div className="flex flex-col gap-8">
+      <h1 className="sr-only">{t.referencia.detailHeading}</h1>
+
       <Link to="/referencia" className="text-sm text-ink-muted hover:text-ink">
         ← {t.referencia.backToReferencia}
       </Link>

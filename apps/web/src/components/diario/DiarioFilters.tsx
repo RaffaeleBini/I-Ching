@@ -46,6 +46,7 @@ export function DiarioFilters({
             onChange={(event) =>
               onHexagramChange(event.target.value ? Number(event.target.value) : null)
             }
+            className="max-w-[10rem]"
           >
             <option value="">{t.diario.filterAll}</option>
             {hexagrams.map((hexagram) => (

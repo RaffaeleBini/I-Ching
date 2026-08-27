@@ -43,12 +43,12 @@ export function AppHeader() {
 
   return (
     <header className="border-b border-border">
-      <div className="mx-auto flex max-w-2xl items-center justify-between px-4 py-4">
+      <div className="mx-auto flex max-w-2xl flex-wrap items-center justify-between gap-y-2 px-4 py-4">
         <Link to="/" className="font-serif text-lg text-ink">
           {t.app.title}
         </Link>
 
-        <nav className="flex items-center gap-1">
+        <nav className="flex flex-wrap items-center gap-1">
           <Link
             to="/referencia"
             className="rounded-full px-3 py-1.5 text-sm text-ink-muted transition-colors hover:bg-surface-raised hover:text-ink"

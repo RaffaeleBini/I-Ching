@@ -25,6 +25,7 @@ export const es: Dictionary = {
     revealing: "Revelando el hexagrama…",
   },
   resultado: {
+    pageHeading: "Resultado de la consulta",
     principalTitle: "Hexagrama principal",
     resultanteTitle: "Hexagrama resultante",
     juicioLabel: "El juicio",
@@ -51,6 +52,7 @@ export const es: Dictionary = {
   },
   referencia: {
     title: "Referencia",
+    detailHeading: "Detalle del hexagrama",
     searchPlaceholder: "Buscar por número o nombre…",
     lineasLabel: "Las líneas",
     trigramaSuperiorLabel: "Trigrama superior",

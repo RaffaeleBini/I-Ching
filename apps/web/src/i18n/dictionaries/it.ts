@@ -25,6 +25,7 @@ export const it: Dictionary = {
     revealing: "Rivelazione dell'esagramma…",
   },
   resultado: {
+    pageHeading: "Risultato della consultazione",
     principalTitle: "Esagramma principale",
     resultanteTitle: "Esagramma risultante",
     juicioLabel: "Il giudizio",
@@ -51,6 +52,7 @@ export const it: Dictionary = {
   },
   referencia: {
     title: "Riferimento",
+    detailHeading: "Dettaglio dell'esagramma",
     searchPlaceholder: "Cerca per numero o nome…",
     lineasLabel: "Le linee",
     trigramaSuperiorLabel: "Trigramma superiore",

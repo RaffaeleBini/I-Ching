@@ -65,12 +65,18 @@ export function ResultadoPage() {
   }, [id, consulta]);
 
   if (consulta === undefined) {
-    return <p className="text-ink-muted">{t.common.loading}</p>;
+    return (
+      <>
+        <h1 className="sr-only">{t.resultado.pageHeading}</h1>
+        <p className="text-ink-muted">{t.common.loading}</p>
+      </>
+    );
   }
 
   if (consulta === null) {
     return (
       <div className="flex flex-col items-center gap-4 py-16 text-center">
+        <h1 className="sr-only">{t.resultado.pageHeading}</h1>
         <p className="text-ink-muted">{t.resultado.notFound}</p>
         <Link to="/diario" className="text-accent underline">
           {t.resultado.backToDiario}
@@ -86,6 +92,8 @@ export function ResultadoPage() {
 
   return (
     <div className="flex flex-col gap-8">
+      <h1 className="sr-only">{t.resultado.pageHeading}</h1>
+
       <div className="flex justify-end">
         <IconButton
           label={consulta.favorito ? t.resultado.favoriteRemove : t.resultado.favoriteAdd}

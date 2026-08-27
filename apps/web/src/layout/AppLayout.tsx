@@ -12,9 +12,23 @@ function useApplyTheme() {
   }, [theme]);
 }
 
+/**
+ * Mantiene `<html lang>` sincronizado con el idioma elegido: sin esto, un
+ * lector de pantalla seguiría aplicando las reglas de pronunciación del
+ * idioma inicial (español) aunque la interfaz esté en gallego o italiano.
+ */
+function useApplyLocale() {
+  const locale = useSettingsStore((state) => state.locale);
+
+  useEffect(() => {
+    document.documentElement.lang = locale;
+  }, [locale]);
+}
+
 /** Layout compartido por todas las rutas: cabecera fija + contenedor centrado con espacio en blanco. */
 export function AppLayout() {
   useApplyTheme();
+  useApplyLocale();
 
   return (
     <div className="min-h-screen bg-surface text-ink">

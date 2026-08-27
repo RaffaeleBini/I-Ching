@@ -29,6 +29,7 @@ export interface Dictionary {
     revealing: string;
   };
   resultado: {
+    pageHeading: string;
     principalTitle: string;
     resultanteTitle: string;
     juicioLabel: string;
@@ -55,6 +56,7 @@ export interface Dictionary {
   };
   referencia: {
     title: string;
+    detailHeading: string;
     searchPlaceholder: string;
     lineasLabel: string;
     trigramaSuperiorLabel: string;
