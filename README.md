@@ -1,17 +1,20 @@
 # I Ching — App de consultas
 
+**🔗 Demo en vivo: [i-ching-web.vercel.app](https://i-ching-web.vercel.app/)**
+
 Aplicación minimalista y contemplativa para consultas al I Ching mediante el método tradicional
 de las 3 monedas, con diario personal. 100% local, sin cuentas ni backend. Ver
 [`spec-iching-app.md`](./spec-iching-app.md) para la especificación completa del proyecto.
 
-Estado actual: la app web está funcionalmente completa y auditada — motor de consulta, las 4
-pantallas principales (Nueva consulta, Resultado, Diario, Referencia de los 64 hexagramas),
-Ajustes (exportar/importar el diario), favoritos, soporte PWA (instalable, funciona sin conexión)
-y una auditoría de accesibilidad (ver [más abajo](#accesibilidad)).
+**Estado: proyecto completado y desplegado.** La app web está funcionalmente completa, auditada y
+publicada en producción — motor de consulta, las 4 pantallas principales (Nueva consulta,
+Resultado, Diario, Referencia de los 64 hexagramas), Ajustes (exportar/importar el diario),
+favoritos, soporte PWA (instalable, funciona sin conexión) y una auditoría de accesibilidad (ver
+[más abajo](#accesibilidad)).
 
-**Decisión de alcance vigente**: por ahora el proyecto se centra únicamente en la app web. La app
-móvil (React Native, reutilizando `@iching/core` sin cambios) y las mejoras opcionales de la fase
-4 del roadmap del spec (método de los tallos de milenrama, temas visuales alternativos,
+**Decisión de alcance**: el proyecto se cierra por ahora con este alcance — solo la app web. La
+app móvil (React Native, reutilizando `@iching/core` sin cambios) y las mejoras opcionales de la
+fase 4 del roadmap del spec (método de los tallos de milenrama, temas visuales alternativos,
 notificación diaria de reflexión) quedan deliberadamente en pausa como posibles mejoras futuras,
 hasta que se decida retomarlas explícitamente.
 
@@ -132,3 +135,15 @@ completo, así que funciona sin conexión tras la primera visita. No hay llamada
 punto de la app (todo el diario vive en IndexedDB local), por lo que no hace falta ninguna
 estrategia de caché en tiempo de ejecución más allá de ese precache — ver `apps/web/vite.config.ts`
 (`vite-plugin-pwa`).
+
+## Despliegue
+
+La app está desplegada en Vercel: **[i-ching-web.vercel.app](https://i-ching-web.vercel.app/)**.
+Cada `git push` a `main` genera automáticamente un nuevo deploy de producción. La configuración
+vive en [`vercel.json`](./vercel.json) (raíz del repo): como la app real está en `apps/web` y
+depende de los paquetes del workspace (`@iching/core`, `@iching/storage-indexeddb`), el Root
+Directory del proyecto en Vercel se deja en la raíz del monorepo en vez de apuntar a `apps/web`, y
+`vercel.json` especifica explícitamente el comando de build (`pnpm --filter @iching/web build`),
+el directorio de salida (`apps/web/dist`) y un rewrite SPA (`/(.*) → /index.html`) para que las
+rutas de React Router (`/diario`, `/resultado/:id`, etc.) funcionen en una recarga o un enlace
+directo en vez de devolver 404.
